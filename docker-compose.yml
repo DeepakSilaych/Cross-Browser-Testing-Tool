@@ -1,0 +1,8 @@
+version: '3'
+services:
+  cross-browser-test:
+    build: .
+    volumes:
+      - ./results:/app/results
+    environment:
+      - PLAYWRIGHT_BROWSERS_PATH=/ms-playwright

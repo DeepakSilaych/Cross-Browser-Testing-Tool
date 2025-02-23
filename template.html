@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cross Browser Test Results</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .browser-comparison { margin-bottom: 30px; }
+        .images { display: flex; gap: 20px; margin-top: 10px; flex-wrap: wrap; }
+        .image-container { flex: 1; min-width: 300px; }
+        img { max-width: 100%; border: 1px solid #ccc; }
+        .diff-high { color: red; }
+        .diff-low { color: green; }
+    </style>
+</head>
+<body>
+    <h1>Cross Browser Test Results</h1>
+    <p>URL: {{ url }}</p>
+    <p>Test Date: {{ date }}</p>
+    
+    {% for browser, diff_value in differences.items() %}
+    <div class="browser-comparison">
+        <h2>{{ browser }} vs {{ baseline_browser }}</h2>
+        <p class="{% if diff_value > 1 %}diff-high{% else %}diff-low{% endif %}">
+            Difference: {{ "%.2f"|format(diff_value) }}%
+        </p>
+        <div class="images">
+            <div class="image-container">
+                <h3>{{ baseline_browser }}</h3>
+                <img src="{{ screenshots[baseline_browser] | replace('results/', '') }}" />
+            </div>
+            <div class="image-container">
+                <h3>{{ browser }}</h3>
+                <img src="{{ screenshots[browser] | replace('results/', '') }}" />
+            </div>
+            <div class="image-container">
+                <h3>Difference</h3>
+                <img src="{{ 'diff_' + baseline_browser + '_' + browser + '.png' }}" />
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</body>
+</html>
